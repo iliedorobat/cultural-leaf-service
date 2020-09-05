@@ -35,6 +35,7 @@ public class DataConsolidation {
 
     // sourceEntries = inpEntries
     // targetEntries = cimecEntries
+    // TODO: sourceEntries = cimecEntries (1048) and targetEntries = inpEntries (1042)
     private static JsonArray mergeKeyValuePairs(JsonArray sourceEntries, JsonArray targetEntries) {
         JsonArray mergedElements = new JsonArray();
         ArrayList<String> uncommonKeys = getUncommonKeys(sourceEntries, targetEntries);
