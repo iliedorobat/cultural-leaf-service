@@ -17,6 +17,7 @@ public class FilePath {
 
     private static final String PREFIX_CIMEC = "cimec";
     private static final String PREFIX_INP = "inp";
+    private static final String PREFIX_GEO_LOCATION = "geoLocation";
     private static final String PREFIX_MERGED = "merged";
     private static final String FILE_NAME_INP_GUIDE = "inp-ghidul-muzelor-2017-05-18";
     private static final String FILE_NAME_ERROR = "Error";
@@ -73,6 +74,15 @@ public class FilePath {
         return MAIN_OUTPUT_PATH
                 + DIRECTORY_PREPARED_DATA
                 + PREFIX_MERGED
+                + StringUtils.capitalize(lang)
+                + FILE_NAME_PREPARED_DATA
+                + EXTENSION_JSON;
+    }
+
+    public static String getGeoLocationJsonPath(String lang) {
+        return MAIN_OUTPUT_PATH
+                + DIRECTORY_PREPARED_DATA
+                + PREFIX_GEO_LOCATION
                 + StringUtils.capitalize(lang)
                 + FILE_NAME_PREPARED_DATA
                 + EXTENSION_JSON;

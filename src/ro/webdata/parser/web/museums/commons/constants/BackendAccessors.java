@@ -14,7 +14,7 @@ public class BackendAccessors {
     private static final String AGENT = "agent";
     private static final String BUILDING = "building";
     private static final String CATEGORY = "category";
-    private static final String CODE = "code";
+    public static final String CODE = "code";
     private static final String COLLECTION = "collection";
     private static final String COMMUNE = "commune";
     private static final String CONTACT = "contact";
@@ -26,12 +26,12 @@ public class BackendAccessors {
     private static final String FAX = "fax";
     private static final String FOUNDED = "founded";
     private static final String GENERAL = "general";
-    private static final String GEO = "geo";
+    public static final String GEO = "geo";
     private static final String HISTORIC = "historic";
     private static final String LATITUDE = "latitude";
     private static final String LMI_CODE = "lmiCode";
     private static final String LOCALITY = "locality";
-    private static final String LOCATION = "location";
+    public static final String LOCATION = "location";
     private static final String LONGITUDE = "longitude";
     private static final String MAIN = "main";
     private static final String MATERIAL = "material";

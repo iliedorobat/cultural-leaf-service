@@ -41,6 +41,9 @@ public class Parser {
         DataConsolidation.writeFinalJson(Constants.LANG_EN);
         DataConsolidation.writeFinalJson(Constants.LANG_RO);
 
+        DataPreparation.prepareGeoLocation(Constants.LANG_EN);
+        DataPreparation.prepareGeoLocation(Constants.LANG_RO);
+
         System.out.println("\nEND");
     }
 }
