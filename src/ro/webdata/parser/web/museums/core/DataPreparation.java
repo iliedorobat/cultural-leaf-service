@@ -38,7 +38,9 @@ public class DataPreparation {
         JsonElement location = object.get(BackendAccessors.LOCATION);
         JsonElement geo = location.getAsJsonObject()
                 .get(BackendAccessors.GEO);
-        preparedObject.add(BackendAccessors.GEO, geo);
+        JsonObject preparedGeo = new JsonObject();
+        preparedGeo.add(BackendAccessors.GEO, geo);
+        preparedObject.add(BackendAccessors.LOCATION, preparedGeo);
 
         return preparedObject;
     }
