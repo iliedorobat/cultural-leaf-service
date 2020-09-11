@@ -18,7 +18,7 @@ public class BackendAccessors {
     private static final String COLLECTION = "collection";
     private static final String COMMUNE = "commune";
     private static final String CONTACT = "contact";
-    private static final String COUNTY = "county";
+    public static final String COUNTY = "county";
     private static final String DESCRIPTION = "description";
     private static final String DETAILS = "details";
     private static final String DIRECTOR = "director";

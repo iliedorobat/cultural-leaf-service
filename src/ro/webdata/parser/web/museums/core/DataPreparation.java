@@ -35,11 +35,13 @@ public class DataPreparation {
         JsonElement name = object.get(BackendAccessors.MUSEUM_NAME);
         preparedObject.add(BackendAccessors.MUSEUM_NAME, name);
 
-        JsonElement location = object.get(BackendAccessors.LOCATION);
-        JsonElement geo = location.getAsJsonObject()
-                .get(BackendAccessors.GEO);
+        JsonObject location = object.get(BackendAccessors.LOCATION)
+                .getAsJsonObject();
+        JsonElement geo = location.get(BackendAccessors.GEO);
+        JsonElement county = location.get(BackendAccessors.COUNTY);
         JsonObject preparedGeo = new JsonObject();
         preparedGeo.add(BackendAccessors.GEO, geo);
+        preparedGeo.add(BackendAccessors.COUNTY, county);
         preparedObject.add(BackendAccessors.LOCATION, preparedGeo);
 
         return preparedObject;
