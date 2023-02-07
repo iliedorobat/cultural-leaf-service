@@ -1,4 +1,4 @@
-package ro.webdata.humanities.server.endpoint.museum.dto.museum;
+package ro.webdata.humanities.server.endpoint.museum.dto.details;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import static ro.webdata.echo.commons.graph.Namespace.*;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class MuseumDTO {
+public class MuseumDetailsDTO {
     private BuildingDTO building;
     private CollectionDTO collection;
     private ContactDTO contact;
@@ -22,7 +22,7 @@ public class MuseumDTO {
     private MainInfoDTO mainInfo;
     private ArrayList<String> publications = new ArrayList<>();
 
-    public MuseumDTO(ArrayNode nodes) {
+    public MuseumDetailsDTO(ArrayNode nodes) {
         for (JsonNode jsonNode : nodes) {
             mapNode(jsonNode);
         }

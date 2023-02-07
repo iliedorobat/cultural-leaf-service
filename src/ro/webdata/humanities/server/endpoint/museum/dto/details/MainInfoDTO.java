@@ -1,4 +1,4 @@
-package ro.webdata.humanities.server.endpoint.museum.dto.museum;
+package ro.webdata.humanities.server.endpoint.museum.dto.details;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

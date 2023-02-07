@@ -1,10 +1,12 @@
 package ro.webdata.humanities.server.endpoint.cho.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
 import ro.webdata.humanities.server.commons.JsonUtils;
 
 // TODO: add edm:hasType?
-public class CHOSummary {
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class CHOSummaryDTO {
     String category;
     String inventoryNumber;
     String location; // TODO:
@@ -12,7 +14,7 @@ public class CHOSummary {
     String title;
     String uri;
 
-    public CHOSummary(JsonNode jsonNode) {
+    public CHOSummaryDTO(JsonNode jsonNode) {
         setInventoryNumber(jsonNode);
         setLocation(jsonNode);
         setSummary(jsonNode);

@@ -6,8 +6,8 @@ import jakarta.ws.rs.core.Response;
 import ro.webdata.humanities.server.SyncHttpClient;
 import ro.webdata.humanities.server.commons.ENDPOINT;
 import ro.webdata.humanities.server.endpoint.cho.filter.cho.CHOFilter;
-import ro.webdata.humanities.server.endpoint.museum.dto.MuseumSummaryUtils;
-import ro.webdata.humanities.server.endpoint.museum.dto.MuseumUtils;
+import ro.webdata.humanities.server.endpoint.museum.dto.summaries.MuseumSummaryUtils;
+import ro.webdata.humanities.server.endpoint.museum.dto.details.MuseumDetailsUtils;
 
 import java.net.http.HttpResponse;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class MuseumEndpoint {
         if (statusCode != -1) {
             String body = response.body();
             String output = uri != null
-                    ? MuseumUtils.responseToJson(body)
+                    ? MuseumDetailsUtils.responseToJson(body)
                     : MuseumSummaryUtils.responseToJson(body);
             return Response.ok().entity(output).build();
         }

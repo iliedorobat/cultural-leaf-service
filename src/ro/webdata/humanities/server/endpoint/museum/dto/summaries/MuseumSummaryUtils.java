@@ -1,4 +1,4 @@
-package ro.webdata.humanities.server.endpoint.cho.dto;
+package ro.webdata.humanities.server.endpoint.museum.dto.summaries;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -8,7 +8,7 @@ import ro.webdata.humanities.server.commons.JsonUtils;
 
 import java.util.ArrayList;
 
-public class CHOSummaryUtils {
+public class MuseumSummaryUtils {
     public static String responseToJson(String jsonString) {
         JsonNode jsonNode = JsonUtils.stringToJson(jsonString);
         ArrayNode nodes = JsonUtils.getNodes(jsonNode);
@@ -17,28 +17,28 @@ public class CHOSummaryUtils {
     }
 
     public static String toString(ArrayNode nodes) {
-        ArrayList<CHOSummary> choSummaryDTOList = toCHOs(nodes);
+        ArrayList<MuseumSummaryDTO> museumSummaryDTOList = toMuseums(nodes);
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            return mapper.writeValueAsString(choSummaryDTOList);
+            return mapper.writeValueAsString(museumSummaryDTOList);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return "[]";
         }
     }
 
-    private static ArrayList<CHOSummary> toCHOs(ArrayNode nodes) {
-        ArrayList<CHOSummary> choSummaryDTOList = new ArrayList<>();
+    private static ArrayList<MuseumSummaryDTO> toMuseums(ArrayNode nodes) {
+        ArrayList<MuseumSummaryDTO> museumSummaryDTOList = new ArrayList<>();
 
         if (nodes == null) {
-            return choSummaryDTOList;
+            return museumSummaryDTOList;
         }
 
         for (JsonNode jsonNode : nodes) {
-            choSummaryDTOList.add(new CHOSummary(jsonNode));
+            museumSummaryDTOList.add(new MuseumSummaryDTO(jsonNode));
         }
 
-        return choSummaryDTOList;
+        return museumSummaryDTOList;
     }
 }

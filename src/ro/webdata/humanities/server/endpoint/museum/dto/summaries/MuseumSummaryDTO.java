@@ -1,9 +1,9 @@
-package ro.webdata.humanities.server.endpoint.museum.dto.museums;
+package ro.webdata.humanities.server.endpoint.museum.dto.summaries;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
 import ro.webdata.humanities.server.commons.JsonUtils;
-import ro.webdata.humanities.server.endpoint.museum.dto.museum.GeolocationDTO;
+import ro.webdata.humanities.server.endpoint.museum.dto.details.GeolocationDTO;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MuseumSummaryDTO {
