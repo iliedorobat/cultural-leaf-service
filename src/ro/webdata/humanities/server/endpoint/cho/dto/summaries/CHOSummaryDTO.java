@@ -1,4 +1,4 @@
-package ro.webdata.humanities.server.endpoint.cho.dto;
+package ro.webdata.humanities.server.endpoint.cho.dto.summaries;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
