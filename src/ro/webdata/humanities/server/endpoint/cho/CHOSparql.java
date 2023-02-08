@@ -89,4 +89,27 @@ public class CHOSparql {
                 "}\n" +
                 "GROUP BY " + CHO_VAR_NAME;
     }
+
+    public static String buildDetailsQuery(String choUri) {
+        SparqlFilterSet filterSet = new SparqlFilterSet(
+                String.format("%s = <%s>", CHO_VAR_NAME, choUri)
+        );
+        SparqlTripleSet tripleSet = new SparqlTripleSet(CHO_VAR_NAME, filterSet);
+
+        tripleSet.addTriple(CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:ProvidedCHO");
+        tripleSet.addTriple(CHO_VAR_NAME, "?property", "?value");
+
+        SparqlPrefixSet prefixSet = new SparqlPrefixSet(tripleSet, filterSet);
+
+        String tripleSetStr = tripleSet.toString();
+        String filterSetStr = filterSet.toString();
+
+        return prefixSet + "\n\n" +
+                "SELECT DISTINCT *\n" +
+                "WHERE {\n" +
+                    (tripleSetStr != null ? tripleSetStr + " .\n" : "") +
+                    (filterSetStr != null ? filterSetStr + "\n" : "") +
+                "}\n" +
+                "ORDER BY ?property";
+    }
 }

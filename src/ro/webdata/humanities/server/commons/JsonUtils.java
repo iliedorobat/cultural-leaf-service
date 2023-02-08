@@ -45,6 +45,35 @@ public class JsonUtils {
         return (ArrayNode) jsonNode.get("head").get("vars");
     }
 
+    public static String getNodeLang(JsonNode jsonNode, String accessor) {
+        JsonNode node = jsonNode.get(accessor);
+
+        if (node == null) {
+            return null;
+        }
+
+        JsonNode langNode = node.get("xml:lang");
+
+        return langNode != null
+                ? langNode.asText()
+                : null;
+    }
+
+    // TODO: check
+    public static String getNodeType(JsonNode jsonNode, String accessor) {
+        JsonNode node = jsonNode.get(accessor);
+
+        if (node == null) {
+            return null;
+        }
+
+        JsonNode langNode = node.get("type");
+
+        return langNode != null
+                ? langNode.asText()
+                : null;
+    }
+
     // Retrieve the value of a JsonNode
     public static String getNodeValue(JsonNode jsonNode, String accessor) {
         JsonNode node = jsonNode.get(accessor);
@@ -53,7 +82,11 @@ public class JsonUtils {
             return null;
         }
 
-        return node.get("value").asText();
+        JsonNode valueNode = node.get("value");
+
+        return valueNode != null
+                ? valueNode.asText()
+                : null;
     }
 
     public static Integer getNodeValueAsInteger(JsonNode jsonNode, String accessor) {
