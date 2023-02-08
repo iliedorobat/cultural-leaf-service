@@ -1,5 +1,7 @@
 package ro.webdata.humanities.server;
 
+import ro.webdata.humanities.server.commons.ENDPOINT;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -28,6 +30,13 @@ public class SyncHttpClient {
         }
     }
 
+    public static HttpResponse<String> post(String link, String query) {
+        HashMap<String, String> payload = new HashMap<>() {{
+            put("query", query);
+        }};
+        return SyncHttpClient.post(ENDPOINT.SPARQL, payload);
+    }
+
     // https://mkyong.com/java/how-to-send-http-request-getpost-in-java/
     public static HttpResponse<String> post(String link, HashMap<String, String> payload) {
         System.out.println("link: " + link);
@@ -48,6 +57,12 @@ public class SyncHttpClient {
             System.out.println("The current request is canceled, but the process continues...");
             return null;
         }
+    }
+
+    public static int getStatusCode(HttpResponse<String> response) {
+        return response != null
+                ? response.statusCode()
+                : -1;
     }
 
     private static HttpRequest.BodyPublisher buildFormDataFromMap(HashMap<String, String> data) {

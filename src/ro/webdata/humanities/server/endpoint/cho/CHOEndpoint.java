@@ -10,20 +10,13 @@ import ro.webdata.humanities.server.endpoint.cho.dto.summaries.CHOSummaryUtils;
 import ro.webdata.humanities.server.endpoint.cho.filter.cho.CHOFilter;
 
 import java.net.http.HttpResponse;
-import java.util.HashMap;
 
 @Path("/cho")
 public class CHOEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCHO(@QueryParam("uri") String choUri) {
-        if (choUri != null) {
-            String query = CHOSparql.buildDetailsQuery(choUri);
-            System.out.println(query);
-            return getCHODetails(choUri);
-        }
-
-        return null;
+        return getDetails(choUri);
     }
 
     @POST
@@ -31,18 +24,15 @@ public class CHOEndpoint {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response postCHO(@QueryParam("aggr") String aggr, CHOFilter choFilter) {
         if (aggr != null && aggr.equals("count")) {
-            return getCHOCounter(choFilter, aggr);
+            return getCounter(choFilter, aggr);
         }
 
-        return getCHOSummaries(choFilter);
+        return getSummaries(choFilter);
     }
 
-    private static Response getCHOCounter(CHOFilter choFilter, String aggr) {
+    private static Response getCounter(CHOFilter choFilter, String aggr) {
         String query = CHOSparql.buildCounterQuery(choFilter, aggr);
-        HashMap<String, String> payload = new HashMap<>() {{
-            put("query", query);
-        }};
-        HttpResponse<String> response = SyncHttpClient.post(ENDPOINT.SPARQL, payload);
+        HttpResponse<String> response = SyncHttpClient.post(ENDPOINT.SPARQL, query);
 
         int statusCode = response != null
                 ? response.statusCode()
@@ -58,12 +48,9 @@ public class CHOEndpoint {
         return Response.status(statusCode).build();
     }
 
-    private static Response getCHODetails(String choUri) {
+    private static Response getDetails(String choUri) {
         String query = CHOSparql.buildDetailsQuery(choUri);
-        HashMap<String, String> payload = new HashMap<>() {{
-            put("query", query);
-        }};
-        HttpResponse<String> response = SyncHttpClient.post(ENDPOINT.SPARQL, payload);
+        HttpResponse<String> response = SyncHttpClient.post(ENDPOINT.SPARQL, query);
 
         int statusCode = response != null
                 ? response.statusCode()
@@ -79,12 +66,9 @@ public class CHOEndpoint {
         return Response.status(statusCode).build();
     }
 
-    private static Response getCHOSummaries(CHOFilter choFilter) {
+    private static Response getSummaries(CHOFilter choFilter) {
         String query = CHOSparql.buildSummaryQuery(choFilter);
-        HashMap<String, String> payload = new HashMap<>() {{
-            put("query", query);
-        }};
-        HttpResponse<String> response = SyncHttpClient.post(ENDPOINT.SPARQL, payload);
+        HttpResponse<String> response = SyncHttpClient.post(ENDPOINT.SPARQL, query);
 
         int statusCode = response != null
                 ? response.statusCode()
