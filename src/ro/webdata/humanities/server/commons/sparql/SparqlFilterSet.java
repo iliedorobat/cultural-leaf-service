@@ -14,6 +14,10 @@ import java.util.Set;
 public class SparqlFilterSet {
     private Set<String> filters;
 
+    public SparqlFilterSet(Set<String> filters) {
+        setFilters(filters);
+    }
+
     public SparqlFilterSet(String condition) {
         setFilters(new HashSet<>());
         addFilter(condition);
@@ -48,8 +52,12 @@ public class SparqlFilterSet {
         return filters;
     }
 
-    public void setFilters(HashSet<String> filters) {
-        this.filters = filters;
+    public void setFilters(Set<String> filters) {
+        this.filters = new HashSet<>();
+
+        for (String filter : filters) {
+            addFilter(filter);
+        }
     }
 
     public void setFilters(CHOFilter choFilter) {

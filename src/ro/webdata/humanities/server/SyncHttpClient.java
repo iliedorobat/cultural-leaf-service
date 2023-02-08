@@ -39,8 +39,6 @@ public class SyncHttpClient {
 
     // https://mkyong.com/java/how-to-send-http-request-getpost-in-java/
     public static HttpResponse<String> post(String link, HashMap<String, String> payload) {
-        System.out.println("link: " + link);
-
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(buildFormDataFromMap(payload))
                 .uri(URI.create(link))

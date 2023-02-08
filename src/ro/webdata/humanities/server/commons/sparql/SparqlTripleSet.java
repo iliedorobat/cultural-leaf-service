@@ -9,6 +9,10 @@ import java.util.regex.Pattern;
 public class SparqlTripleSet {
     private Set<SparqlTriple> triples;
 
+    public SparqlTripleSet(Set<SparqlTriple> triples) {
+        setTriples(triples);
+    }
+
     public SparqlTripleSet(String subject, SparqlFilterSet filterSet) {
         Set<String> filters = filterSet != null ? filterSet.getFilters() : null;
         setTriples(subject, null, filters);
@@ -56,6 +60,10 @@ public class SparqlTripleSet {
 
     public Set<SparqlTriple> getTriples() {
         return triples;
+    }
+
+    public void setTriples(Set<SparqlTriple> triples) {
+        this.triples = triples;
     }
 
     public void setTriples(String subject, TreeSet<String> predicates, Set<String> filters) {
