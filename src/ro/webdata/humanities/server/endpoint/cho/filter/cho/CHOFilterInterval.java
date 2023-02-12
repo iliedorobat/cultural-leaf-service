@@ -1,6 +1,7 @@
 package ro.webdata.humanities.server.endpoint.cho.filter.cho;
 
 import ro.webdata.echo.commons.graph.Namespace;
+import ro.webdata.humanities.server.commons.Const;
 import ro.webdata.normalization.timespan.ro.TimeUtils;
 import ro.webdata.normalization.timespan.ro.TimespanType;
 import ro.webdata.normalization.timespan.ro.model.TimePeriodModel;
@@ -68,38 +69,12 @@ public class CHOFilterInterval {
     }
 
     private static String getTimespanType(String range) {
-        if (range.equals(CHO_DATE_RANGE.CENTURY)) {
+        if (range.equals(Const.TIMESPAN_CENTURY)) {
             return TimespanType.CENTURY;
-        } else if (range.equals(CHO_DATE_RANGE.MILLENNIUM)) {
+        } else if (range.equals(Const.TIMESPAN_MILLENNIUM)) {
             return TimespanType.MILLENNIUM;
         }
 
         return null;
     }
-}
-
-class CHOFilterTime {
-    private int date;
-    private String range;
-
-    public int getDate() {
-        return date;
-    }
-
-    public void setDate(int date) {
-        this.date = date;
-    }
-
-    public String getRange() {
-        return range;
-    }
-
-    public void setRange(String range) {
-        this.range = range;
-    }
-}
-
-class CHO_DATE_RANGE {
-    public static final String CENTURY = "Century";
-    public static final String MILLENNIUM = "Millennium";
 }

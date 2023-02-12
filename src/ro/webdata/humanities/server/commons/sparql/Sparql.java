@@ -16,6 +16,7 @@ public class Sparql {
         put(PROP_KEYS.CHO_CREATION_TIME, "dcterms:created"); // TODO: check dcterms:issued
         put(PROP_KEYS.CHO_DISPLAY_STATE, "odp:displayState");
         put(PROP_KEYS.CHO_EPOCH, null); // TODO:
+        put(PROP_KEYS.CHO_EVENT, "edm:wasPresentAt");
         put(PROP_KEYS.CHO_FOUND_TIME, "odp:found");
         put(PROP_KEYS.CHO_INVENTORY_NUMBER, "odp:inventoryNumber");
         put(PROP_KEYS.CHO_LOCALITY, null); // TODO:
@@ -23,6 +24,9 @@ public class Sparql {
         put(PROP_KEYS.CHO_OVERALL_DESCR, "odp:overallDescription");
         put(PROP_KEYS.CHO_TITLE, "dc:title");
         put(PROP_KEYS.CHO_TYPE, "dc:type");
+
+        put(PROP_KEYS.EVENT_AGE, "edm:occuredAt");
+        put(PROP_KEYS.EVENT_TYPE, "edm:hasType");
 
         put(PROP_KEYS.MEDAL_SHAPE, "odp:form");
 
@@ -64,10 +68,14 @@ public class Sparql {
     }
 
     public static String getAggrSubject(String subject, String aggr) {
-        return "(" + aggr + "(" + subject + ") as " + subject + "_" + aggr + ")";
+        return subject + "_" + aggr;
     }
 
-    public static String getAggrMinSubject(String subject) {
-        return getAggrSubject(subject, "min");
+    public static String getAggrSubjectConstruction(String subject, String aggr) {
+        return "(" + aggr + "(" + subject + ") as " + getAggrSubject(subject, aggr) + ")";
+    }
+
+    public static String getAggrMinSubjectConstruction(String subject) {
+        return getAggrSubjectConstruction(subject, "min");
     }
 }

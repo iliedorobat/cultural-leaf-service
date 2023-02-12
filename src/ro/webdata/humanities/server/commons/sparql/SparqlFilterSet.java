@@ -1,7 +1,9 @@
 package ro.webdata.humanities.server.commons.sparql;
 
+import ro.webdata.humanities.server.endpoint.cho.filter.cho.CHOBaseFilter;
 import ro.webdata.humanities.server.endpoint.cho.filter.cho.CHOFilter;
 import ro.webdata.humanities.server.endpoint.cho.filter.cho.CHOFilterQuery;
+import ro.webdata.humanities.server.endpoint.cho.filter.cho.CHOStatsFilter;
 import ro.webdata.humanities.server.endpoint.cho.filter.medal.MedalCHOFilter;
 import ro.webdata.humanities.server.endpoint.cho.filter.medal.MedalQuery;
 import ro.webdata.humanities.server.endpoint.cho.filter.nature.NatureCHOFilter;
@@ -14,6 +16,10 @@ import java.util.Set;
 public class SparqlFilterSet {
     private Set<String> filters;
 
+    public SparqlFilterSet() {
+        this.filters = new HashSet<>();
+    }
+
     public SparqlFilterSet(Set<String> filters) {
         setFilters(filters);
     }
@@ -25,6 +31,10 @@ public class SparqlFilterSet {
 
     public SparqlFilterSet(CHOFilter choFilter) {
         setFilters(choFilter);
+    }
+
+    public SparqlFilterSet(CHOStatsFilter choStatsFilter) {
+        setFilters(choStatsFilter);
     }
 
     @Override
@@ -61,21 +71,44 @@ public class SparqlFilterSet {
     }
 
     public void setFilters(CHOFilter choFilter) {
-        Set<String> set = new HashSet<>();
+        Set<String> set = getCHOBaseFilter(choFilter);
 
         if (choFilter != null) {
-            MedalCHOFilter medalFilter = choFilter.getMedalFilter();
-            NatureCHOFilter natureFilter = choFilter.getNatureFilter();
-
-            set.add(CHOFilterQuery.prepareCountyFilter(choFilter.getCounty()));
             set.add(CHOFilterQuery.prepareCreationTimeFilter(choFilter.getCreationInterval()));
-            set.add(CHOFilterQuery.prepareDisplayStateFilter(choFilter.getDisplayState()));
-            set.add(CHOFilterQuery.prepareEpochFilter(choFilter.getEpoch())); // TODO:
             set.add(CHOFilterQuery.prepareFoundTimeFilter(choFilter.getFoundInterval()));
-            set.add(CHOFilterQuery.prepareInventoryNumberFilter(choFilter.getInventoryNumber()));
-            set.add(CHOFilterQuery.prepareLocalityFilter(choFilter.getLocality())); // TODO:
-            set.add(CHOFilterQuery.prepareTitleFilter(choFilter.getTitle()));
-            set.add(CHOFilterQuery.prepareTypeFilter(choFilter.getType()));
+
+            set.removeIf(Objects::isNull);
+            set.removeIf(String::isEmpty);
+        }
+
+        filters = set;
+    }
+
+    public void setFilters(CHOStatsFilter choStatsFilter) {
+        Set<String> set = getCHOBaseFilter(choStatsFilter);
+
+//        if (choStatsFilter != null) {
+//            set.removeIf(Objects::isNull);
+//            set.removeIf(String::isEmpty);
+//        }
+
+        filters = set;
+    }
+
+    private Set<String> getCHOBaseFilter(CHOBaseFilter choBaseFilter) {
+        Set<String> set = new HashSet<>();
+
+        if (choBaseFilter != null) {
+            MedalCHOFilter medalFilter = choBaseFilter.getMedalFilter();
+            NatureCHOFilter natureFilter = choBaseFilter.getNatureFilter();
+
+            set.add(CHOFilterQuery.prepareCountyFilter(choBaseFilter.getCounty()));
+            set.add(CHOFilterQuery.prepareDisplayStateFilter(choBaseFilter.getDisplayState()));
+            set.add(CHOFilterQuery.prepareEpochFilter(choBaseFilter.getEpoch())); // TODO:
+            set.add(CHOFilterQuery.prepareInventoryNumberFilter(choBaseFilter.getInventoryNumber()));
+            set.add(CHOFilterQuery.prepareLocalityFilter(choBaseFilter.getLocality())); // TODO:
+            set.add(CHOFilterQuery.prepareTitleFilter(choBaseFilter.getTitle()));
+            set.add(CHOFilterQuery.prepareTypeFilter(choBaseFilter.getType()));
 
             String medalShape = medalFilter != null ? MedalQuery.prepareShapeFilter(medalFilter.getShape()) : null;
             String natureAge = natureFilter != null ? NatureQuery.prepareAgeFilter(natureFilter.getAge()) : null;
@@ -91,6 +124,6 @@ public class SparqlFilterSet {
             set.removeIf(String::isEmpty);
         }
 
-        filters = set;
+        return set;
     }
 }

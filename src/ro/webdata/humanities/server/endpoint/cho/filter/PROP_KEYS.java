@@ -11,6 +11,7 @@ public class PROP_KEYS {
     public static final String CHO_CREATION_TIME = "choCreationTime";
     public static final String CHO_DISPLAY_STATE = "choDisplayState";
     public static final String CHO_EPOCH = "choEpoch";
+    public static final String CHO_EVENT = "choEvent";
     public static final String CHO_FOUND_TIME = "choFoundTime";
     public static final String CHO_INVENTORY_NUMBER = "choInventoryNumber";
     public static final String CHO_LOCALITY = "choLocality";
@@ -18,6 +19,9 @@ public class PROP_KEYS {
     public static final String CHO_OVERALL_DESCR = "choOverallDescr";
     public static final String CHO_TITLE = "choTitle";
     public static final String CHO_TYPE = "choType";
+
+    public static final String EVENT_AGE = "eventAge";
+    public static final String EVENT_TYPE = "eventType";
 
     public static final String MEDAL_SHAPE = "medalShape";
 

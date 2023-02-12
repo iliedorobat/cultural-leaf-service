@@ -28,6 +28,7 @@ public class CHOSparql {
                     "\t}";
 
             return prefixSet + "\n\n" +
+                    // TODO: use Sparql.getAggrSubjectConstruction
                     "SELECT " + "(count(" + CHO_VAR_NAME + ") as ?count)" + "\n" +
                     "WHERE {\n" +
                         subSelect + "\n" +
@@ -77,11 +78,11 @@ public class CHOSparql {
         return prefixSet + "\n\n" +
                 "SELECT DISTINCT " +
                     CHO_VAR_NAME +
-                    " " + Sparql.getAggrMinSubject(choTitle) +
-                    " " + Sparql.getAggrMinSubject(choInventoryNumber) +
-                    " " + Sparql.getAggrMinSubject(choType) +
-                    " " + Sparql.getAggrMinSubject(choLocation) +
-                    " " + Sparql.getAggrMinSubject(choOverallDescr) + "\n" +
+                    " " + Sparql.getAggrMinSubjectConstruction(choTitle) +
+                    " " + Sparql.getAggrMinSubjectConstruction(choInventoryNumber) +
+                    " " + Sparql.getAggrMinSubjectConstruction(choType) +
+                    " " + Sparql.getAggrMinSubjectConstruction(choLocation) +
+                    " " + Sparql.getAggrMinSubjectConstruction(choOverallDescr) + "\n" +
                 "WHERE {\n" +
                     (tripleSetStr != null ? tripleSetStr + " .\n" : "") +
                     (optionalSetStr != null ? optionalSetStr + " .\n" : "") +

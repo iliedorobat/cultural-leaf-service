@@ -45,6 +45,21 @@ public class JsonUtils {
         return (ArrayNode) jsonNode.get("head").get("vars");
     }
 
+    // TODO: check
+    public static String getNodeDataType(JsonNode jsonNode, String accessor) {
+        JsonNode node = jsonNode.get(accessor);
+
+        if (node == null) {
+            return null;
+        }
+
+        JsonNode langNode = node.get("datatype");
+
+        return langNode != null
+                ? langNode.asText()
+                : null;
+    }
+
     public static String getNodeLang(JsonNode jsonNode, String accessor) {
         JsonNode node = jsonNode.get(accessor);
 
