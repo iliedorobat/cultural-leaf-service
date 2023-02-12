@@ -9,14 +9,11 @@ import ro.webdata.humanities.server.endpoint.cho.filter.PROP_KEYS;
 import ro.webdata.humanities.server.endpoint.cho.filter.cho.CHOStatsFilter;
 
 public class CHOStatsSparql {
-    private static final String CHO_VAR_NAME = "?cho";
-    private static final String EVENT_VAR_NAME = "?event";
-
     public static String buildTimespanCounterQuery(CHOStatsFilter choStatsFilter, String eventType, String timeRange, boolean countAll, int limit) {
         String eventAge = Sparql.getVarName(Sparql.PROPS.get(PROP_KEYS.EVENT_AGE));
 
         SparqlFilterSet filterSet = new SparqlFilterSet(choStatsFilter);
-        SparqlTripleSet tripleSet = new SparqlTripleSet(CHO_VAR_NAME, filterSet);
+        SparqlTripleSet tripleSet = new SparqlTripleSet(Sparql.CHO_VAR_NAME, filterSet);
 
         if (timeRange.equals(Const.TIMESPAN_CENTURY)) {
             filterSet.addFilter(
@@ -32,11 +29,11 @@ public class CHOStatsSparql {
             );
         }
 
-        tripleSet.addTriple(CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:ProvidedCHO");
-        tripleSet.addTriple(CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_EVENT), EVENT_VAR_NAME);
-        tripleSet.addTriple(EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:Event");
-        tripleSet.addTriple(EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.EVENT_TYPE), String.format("\"%s\"@en", eventType));
-        tripleSet.addTriple(EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.EVENT_AGE), eventAge);
+        tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:ProvidedCHO");
+        tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_EVENT), Sparql.EVENT_VAR_NAME);
+        tripleSet.addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:Event");
+        tripleSet.addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.EVENT_TYPE), String.format("\"%s\"@en", eventType));
+        tripleSet.addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.EVENT_AGE), eventAge);
 
         SparqlPrefixSet prefixSet = new SparqlPrefixSet(tripleSet, filterSet);
 

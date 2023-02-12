@@ -10,7 +10,6 @@ import java.util.TreeSet;
 
 public class MuseumSparql {
     private static final String AGENT_URI_VAR_NAME = Sparql.getVarName(PROP_KEYS.CHO_COUNTY, true);
-    private static final String CHO_VAR_NAME = "?cho";
 
     public static String buildDetailsQuery(String uri) {
         Set<SparqlTriple> triples = new HashSet<>() {{
@@ -75,16 +74,26 @@ public class MuseumSparql {
         }};
 
         SparqlFilterSet filterSet = new SparqlFilterSet(choFilter);
-        SparqlTripleSet tripleSet = new SparqlTripleSet(CHO_VAR_NAME, filterSet);
+        SparqlTripleSet tripleSet = new SparqlTripleSet(Sparql.CHO_VAR_NAME, filterSet);
         SparqlOptionalSet optionalSet = new SparqlOptionalSet(
                 Sparql.getVarName(PROP_KEYS.CHO_COUNTY, true),
                 optionalProps
         );
 
-        tripleSet.addTriple(CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_COUNTY));
+        tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_COUNTY));
         tripleSet.addTriple(AGENT_URI_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.AGENT_NAME));
         tripleSet.addTriple(AGENT_URI_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.AGENT_TYPE));
         tripleSet.addTriple(AGENT_URI_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.AGENT_COUNTY));
+
+        String eventType = Sparql.getEventType(choFilter);
+        if (eventType != null) {
+            String eventAge = Sparql.getVarName(Sparql.PROPS.get(PROP_KEYS.EVENT_AGE));
+
+            tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_EVENT), Sparql.EVENT_VAR_NAME);
+            tripleSet.addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:Event");
+            tripleSet.addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.EVENT_TYPE), String.format("\"%s\"@en", eventType));
+            tripleSet.addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.EVENT_AGE), eventAge);
+        }
 
         filterSet.addFilter(
                 String.format("lang(%s) = 'en'", agentName)

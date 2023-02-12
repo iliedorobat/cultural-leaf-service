@@ -71,28 +71,11 @@ public class SparqlFilterSet {
     }
 
     public void setFilters(CHOFilter choFilter) {
-        Set<String> set = getCHOBaseFilter(choFilter);
-
-        if (choFilter != null) {
-            set.add(CHOFilterQuery.prepareCreationTimeFilter(choFilter.getCreationInterval()));
-            set.add(CHOFilterQuery.prepareFoundTimeFilter(choFilter.getFoundInterval()));
-
-            set.removeIf(Objects::isNull);
-            set.removeIf(String::isEmpty);
-        }
-
-        filters = set;
+        filters = getCHOBaseFilter(choFilter);
     }
 
     public void setFilters(CHOStatsFilter choStatsFilter) {
-        Set<String> set = getCHOBaseFilter(choStatsFilter);
-
-//        if (choStatsFilter != null) {
-//            set.removeIf(Objects::isNull);
-//            set.removeIf(String::isEmpty);
-//        }
-
-        filters = set;
+        filters = getCHOBaseFilter(choStatsFilter);
     }
 
     private Set<String> getCHOBaseFilter(CHOBaseFilter choBaseFilter) {

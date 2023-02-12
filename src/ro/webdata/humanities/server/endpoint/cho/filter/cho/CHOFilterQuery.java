@@ -21,14 +21,6 @@ public class CHOFilterQuery {
         return null;
     }
 
-    public static String prepareCreationTimeFilter(CHOFilterInterval value) {
-        return prepareDateIntervalFilter(value, PROP_KEYS.CHO_CREATION_TIME);
-    }
-
-    public static String prepareFoundTimeFilter(CHOFilterInterval value) {
-        return prepareDateIntervalFilter(value, PROP_KEYS.CHO_FOUND_TIME);
-    }
-
     public static String prepareDisplayStateFilter(String value) {
         String varName = Sparql.getVarName(PROP_KEYS.CHO_DISPLAY_STATE, true);
         String values;
@@ -111,19 +103,6 @@ public class CHOFilterQuery {
     // TODO:
     public static String prepareEpochFilter(String value) {
         return null;
-    }
-
-    private static String prepareDateIntervalFilter(CHOFilterInterval value, String subjectKey) {
-        String varName = Sparql.getVarName(subjectKey, true);
-        String values = value != null
-                ? value.toDBpediaString()
-                : null;
-
-        if (varName == null || values == null) {
-            return null;
-        }
-
-        return String.format("FILTER(%s IN (%s))", varName, values);
     }
 }
 

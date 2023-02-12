@@ -1,22 +1,31 @@
 package ro.webdata.humanities.server.endpoint.cho.filter.cho;
 
 public class CHOStatsFilter extends CHOBaseFilter {
-    private CHOFilterTime creationTime;
-    private CHOFilterTime foundTime;
+    private CHOFilterTime collectingTime;
+    private CHOFilterTime findingTime;
+    private CHOFilterTime productionTime;
 
-    public CHOFilterTime getCreationTime() {
-        return creationTime;
+    public CHOFilterTime getCollectingTime() {
+        return collectingTime;
     }
 
-    public void setCreationTime(CHOFilterTime creationTime) {
-        this.creationTime = creationTime;
+    public void setCollectingTime(CHOFilterTime collectingTime) {
+        this.collectingTime = collectingTime;
     }
 
-    public CHOFilterTime getFoundTime() {
-        return foundTime;
+    public CHOFilterTime getFindingTime() {
+        return findingTime;
     }
 
-    public void setFoundTime(CHOFilterTime foundTime) {
-        this.foundTime = foundTime;
+    public void setFindingTime(CHOFilterTime findingTime) {
+        this.findingTime = findingTime;
+    }
+
+    public CHOFilterTime getProductionTime() {
+        return productionTime;
+    }
+
+    public void setProductionTime(CHOFilterTime productionTime) {
+        this.productionTime = productionTime;
     }
 }

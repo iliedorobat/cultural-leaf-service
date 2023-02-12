@@ -1,10 +1,15 @@
 package ro.webdata.humanities.server.commons.sparql;
 
+import ro.webdata.humanities.server.commons.Const;
 import ro.webdata.humanities.server.endpoint.cho.filter.PROP_KEYS;
+import ro.webdata.humanities.server.endpoint.cho.filter.cho.CHOFilter;
 
 import java.util.HashMap;
 
 public class Sparql {
+    public static final String CHO_VAR_NAME = "?cho";
+    public static final String EVENT_VAR_NAME = "?event";
+
     public static final HashMap<String, String> PROPS = new HashMap<>() {{
         put(PROP_KEYS.AGENT_COUNTY, "dbp:county");
         put(PROP_KEYS.AGENT_LATITUDE, "dbp:latitude");
@@ -13,11 +18,9 @@ public class Sparql {
         put(PROP_KEYS.AGENT_TYPE, "dbo:type");
 
         put(PROP_KEYS.CHO_COUNTY, "edm:currentLocation");
-        put(PROP_KEYS.CHO_CREATION_TIME, "dcterms:created"); // TODO: check dcterms:issued
         put(PROP_KEYS.CHO_DISPLAY_STATE, "odp:displayState");
         put(PROP_KEYS.CHO_EPOCH, null); // TODO:
         put(PROP_KEYS.CHO_EVENT, "edm:wasPresentAt");
-        put(PROP_KEYS.CHO_FOUND_TIME, "odp:found");
         put(PROP_KEYS.CHO_INVENTORY_NUMBER, "odp:inventoryNumber");
         put(PROP_KEYS.CHO_LOCALITY, null); // TODO:
         put(PROP_KEYS.CHO_LOCATION, "edm:currentLocation");
@@ -26,6 +29,9 @@ public class Sparql {
         put(PROP_KEYS.CHO_TYPE, "dc:type");
 
         put(PROP_KEYS.EVENT_AGE, "edm:occuredAt");
+        put(PROP_KEYS.EVENT_TIME_COLLECTING, "edm:occuredAt");
+        put(PROP_KEYS.EVENT_TIME_FINDING, "edm:occuredAt");
+        put(PROP_KEYS.EVENT_TIME_PRODUCTION, "edm:occuredAt");
         put(PROP_KEYS.EVENT_TYPE, "edm:hasType");
 
         put(PROP_KEYS.MEDAL_SHAPE, "odp:form");
@@ -77,5 +83,21 @@ public class Sparql {
 
     public static String getAggrMinSubjectConstruction(String subject) {
         return getAggrSubjectConstruction(subject, "min");
+    }
+
+    public static String getEventType(CHOFilter choFilter) {
+        String collectingDBpedia = choFilter.getCollectingInterval().toDBpediaString();
+        String findingDBpedia = choFilter.getFindingInterval().toDBpediaString();
+        String productionDBpedia = choFilter.getProductionInterval().toDBpediaString();
+
+        if (productionDBpedia != null) {
+            return Const.EVENT_PRODUCTION;
+        } else if (findingDBpedia != null) {
+            return Const.EVENT_FINDING;
+        } else if (collectingDBpedia != null) {
+            return Const.EVENT_COLLECTING;
+        }
+
+        return null;
     }
 }

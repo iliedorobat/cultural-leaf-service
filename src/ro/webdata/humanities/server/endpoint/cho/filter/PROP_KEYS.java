@@ -8,11 +8,9 @@ public class PROP_KEYS {
     public static final String AGENT_TYPE = "agentType";
 
     public static final String CHO_COUNTY = "choCounty";
-    public static final String CHO_CREATION_TIME = "choCreationTime";
     public static final String CHO_DISPLAY_STATE = "choDisplayState";
     public static final String CHO_EPOCH = "choEpoch";
     public static final String CHO_EVENT = "choEvent";
-    public static final String CHO_FOUND_TIME = "choFoundTime";
     public static final String CHO_INVENTORY_NUMBER = "choInventoryNumber";
     public static final String CHO_LOCALITY = "choLocality";
     public static final String CHO_LOCATION = "choLocation";
@@ -21,6 +19,9 @@ public class PROP_KEYS {
     public static final String CHO_TYPE = "choType";
 
     public static final String EVENT_AGE = "eventAge";
+    public static final String EVENT_TIME_COLLECTING = "eventTimeCollectingTime";
+    public static final String EVENT_TIME_FINDING = "eventTimeFindingTime";
+    public static final String EVENT_TIME_PRODUCTION = "eventTimeProductionTime";
     public static final String EVENT_TYPE = "eventType";
 
     public static final String MEDAL_SHAPE = "medalShape";

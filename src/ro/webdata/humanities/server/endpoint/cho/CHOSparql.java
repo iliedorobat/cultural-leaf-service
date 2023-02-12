@@ -1,5 +1,6 @@
 package ro.webdata.humanities.server.endpoint.cho;
 
+import ro.webdata.humanities.server.commons.Const;
 import ro.webdata.humanities.server.commons.sparql.*;
 import ro.webdata.humanities.server.endpoint.cho.filter.PROP_KEYS;
 import ro.webdata.humanities.server.endpoint.cho.filter.cho.CHOFilter;
@@ -7,21 +8,30 @@ import ro.webdata.humanities.server.endpoint.cho.filter.cho.CHOFilter;
 import java.util.TreeSet;
 
 public class CHOSparql {
-    private static final String CHO_VAR_NAME = "?cho";
-
     public static String buildCounterQuery(CHOFilter choFilter, String aggr) {
+        String eventType = Sparql.getEventType(choFilter);
+
         SparqlFilterSet filterSet = new SparqlFilterSet(choFilter);
-        SparqlTripleSet tripleSet = new SparqlTripleSet(CHO_VAR_NAME, filterSet);
+        SparqlTripleSet tripleSet = new SparqlTripleSet(Sparql.CHO_VAR_NAME, filterSet);
 
         if (aggr != null && aggr.equals("count")) {
-            tripleSet.addTriple(CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:ProvidedCHO");
+            tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:ProvidedCHO");
+            if (eventType != null) {
+                String eventAge = Sparql.getVarName(Sparql.PROPS.get(PROP_KEYS.EVENT_AGE));
+
+                tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_EVENT), Sparql.EVENT_VAR_NAME);
+                tripleSet.addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:Event");
+                tripleSet.addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.EVENT_TYPE), String.format("\"%s\"@en", eventType));
+                tripleSet.addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.EVENT_AGE), eventAge);
+            }
+
             SparqlPrefixSet prefixSet = new SparqlPrefixSet(tripleSet, filterSet);
 
             String tripleSetStr = tripleSet.toString("\t\t");
             String filterSetStr = filterSet.toString("\t\t");
 
             String subSelect = "" +
-                    "\tSELECT DISTINCT " + CHO_VAR_NAME + "\n" +
+                    "\tSELECT DISTINCT " + Sparql.CHO_VAR_NAME + "\n" +
                     "\tWHERE {\n" +
                         (tripleSetStr != null ? tripleSetStr + "\n" : "") +
                         (filterSetStr != null ? filterSetStr + "\n" : "") +
@@ -29,7 +39,7 @@ public class CHOSparql {
 
             return prefixSet + "\n\n" +
                     // TODO: use Sparql.getAggrSubjectConstruction
-                    "SELECT " + "(count(" + CHO_VAR_NAME + ") as ?count)" + "\n" +
+                    "SELECT " + "(count(" + Sparql.CHO_VAR_NAME + ") as ?count)" + "\n" +
                     "WHERE {\n" +
                         subSelect + "\n" +
                     "}";
@@ -46,7 +56,7 @@ public class CHOSparql {
         String choType = Sparql.getVarName(Sparql.PROPS.get(PROP_KEYS.CHO_TYPE));
 
         SparqlFilterSet filterSet = new SparqlFilterSet(choFilter);
-        SparqlTripleSet tripleSet = new SparqlTripleSet(CHO_VAR_NAME, filterSet);
+        SparqlTripleSet tripleSet = new SparqlTripleSet(Sparql.CHO_VAR_NAME, filterSet);
 
         filterSet.addFilter(
                 String.format("lang(%s) = 'ro'", choTitle)
@@ -55,11 +65,11 @@ public class CHOSparql {
                 String.format("lang(%s) = 'en'", choType)
         );
 
-        tripleSet.addTriple(CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:ProvidedCHO");
-        tripleSet.addTriple(CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_TITLE));
-        tripleSet.addTriple(CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_TYPE));
-        tripleSet.addTriple(CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_LOCATION));
-        tripleSet.addTriple(CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_INVENTORY_NUMBER));
+        tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:ProvidedCHO");
+        tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_TITLE));
+        tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_TYPE));
+        tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_LOCATION));
+        tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_INVENTORY_NUMBER));
 
         SparqlFilterSet optionalFilterSet = new SparqlFilterSet(
                 String.format("lang(%s) = 'ro'", choOverallDescr)
@@ -68,7 +78,7 @@ public class CHOSparql {
             add(Sparql.PROPS.get(PROP_KEYS.CHO_OVERALL_DESCR));
         }};
 
-        SparqlOptionalSet optionalSet = new SparqlOptionalSet(CHO_VAR_NAME, optionalProps, optionalFilterSet);
+        SparqlOptionalSet optionalSet = new SparqlOptionalSet(Sparql.CHO_VAR_NAME, optionalProps, optionalFilterSet);
         SparqlPrefixSet prefixSet = new SparqlPrefixSet(tripleSet, optionalSet, filterSet);
 
         String tripleSetStr = tripleSet.toString();
@@ -77,7 +87,7 @@ public class CHOSparql {
 
         return prefixSet + "\n\n" +
                 "SELECT DISTINCT " +
-                    CHO_VAR_NAME +
+                    Sparql.CHO_VAR_NAME +
                     " " + Sparql.getAggrMinSubjectConstruction(choTitle) +
                     " " + Sparql.getAggrMinSubjectConstruction(choInventoryNumber) +
                     " " + Sparql.getAggrMinSubjectConstruction(choType) +
@@ -88,17 +98,17 @@ public class CHOSparql {
                     (optionalSetStr != null ? optionalSetStr + " .\n" : "") +
                     (filterSetStr != null ? filterSetStr + "\n" : "") +
                 "}\n" +
-                "GROUP BY " + CHO_VAR_NAME;
+                "GROUP BY " + Sparql.CHO_VAR_NAME;
     }
 
     public static String buildDetailsQuery(String choUri) {
         SparqlFilterSet filterSet = new SparqlFilterSet(
-                String.format("%s = <%s>", CHO_VAR_NAME, choUri)
+                String.format("%s = <%s>", Sparql.CHO_VAR_NAME, choUri)
         );
-        SparqlTripleSet tripleSet = new SparqlTripleSet(CHO_VAR_NAME, filterSet);
+        SparqlTripleSet tripleSet = new SparqlTripleSet(Sparql.CHO_VAR_NAME, filterSet);
 
-        tripleSet.addTriple(CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:ProvidedCHO");
-        tripleSet.addTriple(CHO_VAR_NAME, "?property", "?value");
+        tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:ProvidedCHO");
+        tripleSet.addTriple(Sparql.CHO_VAR_NAME, "?property", "?value");
 
         SparqlPrefixSet prefixSet = new SparqlPrefixSet(tripleSet, filterSet);
 
