@@ -1,5 +1,7 @@
 package ro.webdata.humanities.server.commons.sparql;
 
+import ro.webdata.humanities.server.endpoint.cho.filter.PROP_KEYS;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -58,6 +60,17 @@ public class SparqlTripleSet {
         );
     }
 
+    public void addEventTriples(String eventType) {
+        if (eventType != null) {
+            String eventAge = Sparql.getVarName(Sparql.PROPS.get(PROP_KEYS.EVENT_AGE));
+
+            addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_EVENT), Sparql.EVENT_VAR_NAME);
+            addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:Event");
+            addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.EVENT_TYPE), String.format("\"%s\"@en", eventType));
+            addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.EVENT_AGE), eventAge);
+        }
+    }
+
     public Set<SparqlTriple> getTriples() {
         return triples;
     }
@@ -79,6 +92,12 @@ public class SparqlTripleSet {
             Matcher matcher;
 
             for (String filter : filters) {
+                // Avoid adding <?cho edm:occuredAt ?edm_occuredAt> triple
+                String occurredAt = Sparql.getVarName(PROP_KEYS.EVENT_AGE, true);
+                if (filter.contains(occurredAt)) {
+                    break;
+                }
+
                 matcher = pattern.matcher(filter);
 
                 while (matcher.find()) {

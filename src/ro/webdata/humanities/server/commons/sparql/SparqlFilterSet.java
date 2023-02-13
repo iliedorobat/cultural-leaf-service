@@ -72,6 +72,20 @@ public class SparqlFilterSet {
 
     public void setFilters(CHOFilter choFilter) {
         filters = getCHOBaseFilter(choFilter);
+
+        if (choFilter != null) {
+            String collectingFilter = CHOFilterQuery.prepareCollectingTimeFilter(choFilter.getCollectingInterval());
+            String findingFilter = CHOFilterQuery.prepareFindingTimeFilter(choFilter.getFindingInterval());
+            String productionFilter = CHOFilterQuery.prepareProductionTimeFilter(choFilter.getProductionInterval());
+
+            if (productionFilter != null) {
+                filters.add(productionFilter);
+            } else if (findingFilter != null) {
+                filters.add(findingFilter);
+            } else if (collectingFilter != null) {
+                filters.add(collectingFilter);
+            }
+        }
     }
 
     public void setFilters(CHOStatsFilter choStatsFilter) {

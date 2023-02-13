@@ -1,6 +1,5 @@
 package ro.webdata.humanities.server.endpoint.cho;
 
-import ro.webdata.humanities.server.commons.Const;
 import ro.webdata.humanities.server.commons.sparql.*;
 import ro.webdata.humanities.server.endpoint.cho.filter.PROP_KEYS;
 import ro.webdata.humanities.server.endpoint.cho.filter.cho.CHOFilter;
@@ -9,21 +8,13 @@ import java.util.TreeSet;
 
 public class CHOSparql {
     public static String buildCounterQuery(CHOFilter choFilter, String aggr) {
-        String eventType = Sparql.getEventType(choFilter);
-
         SparqlFilterSet filterSet = new SparqlFilterSet(choFilter);
         SparqlTripleSet tripleSet = new SparqlTripleSet(Sparql.CHO_VAR_NAME, filterSet);
 
         if (aggr != null && aggr.equals("count")) {
+            String eventType = Sparql.getEventType(choFilter);
             tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:ProvidedCHO");
-            if (eventType != null) {
-                String eventAge = Sparql.getVarName(Sparql.PROPS.get(PROP_KEYS.EVENT_AGE));
-
-                tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_EVENT), Sparql.EVENT_VAR_NAME);
-                tripleSet.addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:Event");
-                tripleSet.addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.EVENT_TYPE), String.format("\"%s\"@en", eventType));
-                tripleSet.addTriple(Sparql.EVENT_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.EVENT_AGE), eventAge);
-            }
+            tripleSet.addEventTriples(eventType);
 
             SparqlPrefixSet prefixSet = new SparqlPrefixSet(tripleSet, filterSet);
 
@@ -54,6 +45,7 @@ public class CHOSparql {
         String choOverallDescr = Sparql.getVarName(Sparql.PROPS.get(PROP_KEYS.CHO_OVERALL_DESCR));
         String choTitle = Sparql.getVarName(Sparql.PROPS.get(PROP_KEYS.CHO_TITLE));
         String choType = Sparql.getVarName(Sparql.PROPS.get(PROP_KEYS.CHO_TYPE));
+        String eventType = Sparql.getEventType(choFilter);
 
         SparqlFilterSet filterSet = new SparqlFilterSet(choFilter);
         SparqlTripleSet tripleSet = new SparqlTripleSet(Sparql.CHO_VAR_NAME, filterSet);
@@ -70,6 +62,7 @@ public class CHOSparql {
         tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_TYPE));
         tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_LOCATION));
         tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.CHO_INVENTORY_NUMBER));
+        tripleSet.addEventTriples(eventType);
 
         SparqlFilterSet optionalFilterSet = new SparqlFilterSet(
                 String.format("lang(%s) = 'ro'", choOverallDescr)
