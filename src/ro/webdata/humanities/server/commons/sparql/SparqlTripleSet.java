@@ -95,7 +95,7 @@ public class SparqlTripleSet {
                 // Avoid adding <?cho edm:occuredAt ?edm_occuredAt> triple
                 String occurredAt = Sparql.getVarName(PROP_KEYS.EVENT_AGE, true);
                 if (filter.contains(occurredAt)) {
-                    break;
+                    continue;
                 }
 
                 matcher = pattern.matcher(filter);
