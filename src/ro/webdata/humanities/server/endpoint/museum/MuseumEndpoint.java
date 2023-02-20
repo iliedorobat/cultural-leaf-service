@@ -22,7 +22,7 @@ public class MuseumEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response postMuseum(@QueryParam("uri") String uri, CHOFilter choFilter) {
+    public Response postMuseum(CHOFilter choFilter) {
         if (choFilter != null) {
             return getSummaries(choFilter);
         }
