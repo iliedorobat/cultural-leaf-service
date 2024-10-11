@@ -4,10 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ro.webdata</groupId>
+    <groupId>ro.webdata.humanities.server</groupId>
     <artifactId>cultural-leaf-service</artifactId>
     <version>2.0</version>
-    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -64,39 +63,32 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
-                <configuration>
-                    <groupId>ro.webdata.echo.commons</groupId>
-                    <artifactId>commons-echo</artifactId>
-                    <version>1.3</version>
-                    <packaging>jar</packaging>
-                    <file>${project.basedir}/src/main/resources/commons-echo-1.3.jar</file>
-                    <generatePom>true</generatePom>
-                </configuration>
                 <executions>
                     <execution>
-                        <id>install-jar-lib</id>
+                        <id>install-commons-echo</id>
+                        <configuration>
+                            <groupId>ro.webdata.echo.commons</groupId>
+                            <artifactId>commons-echo</artifactId>
+                            <version>1.3</version>
+                            <packaging>jar</packaging>
+                            <file>${project.basedir}/src/main/resources/commons-echo-1.3.jar</file>
+                            <generatePom>true</generatePom>
+                        </configuration>
                         <goals>
                             <goal>install-file</goal>
                         </goals>
                         <phase>validate</phase>
                     </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <configuration>
-                    <groupId>ro.webdata.normalization.timespan</groupId>
-                    <artifactId>timespan-normalization</artifactId>
-                    <version>1.3</version>
-                    <packaging>jar</packaging>
-                    <file>${project.basedir}/src/main/resources/timespan-normalization-1.3.jar</file>
-                    <generatePom>true</generatePom>
-                </configuration>
-                <executions>
                     <execution>
-                        <id>install-jar-lib</id>
+                        <id>install-timespan-normalization</id>
+                        <configuration>
+                            <groupId>ro.webdata.normalization.timespan</groupId>
+                            <artifactId>timespan-normalization</artifactId>
+                            <version>1.3</version>
+                            <packaging>jar</packaging>
+                            <file>${project.basedir}/src/main/resources/timespan-normalization-1.3.jar</file>
+                            <generatePom>true</generatePom>
+                        </configuration>
                         <goals>
                             <goal>install-file</goal>
                         </goals>
