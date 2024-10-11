@@ -14,7 +14,8 @@ public class CHOSparql {
         if (aggr != null && aggr.equals("count")) {
             String eventType = Sparql.getEventType(choFilter);
             tripleSet.addTriple(Sparql.CHO_VAR_NAME, Sparql.PROPS.get(PROP_KEYS.RDF_TYPE), "edm:ProvidedCHO");
-            tripleSet.addEventTriples(eventType);
+            // FIXME: eventType is always null
+//            tripleSet.addEventTriples(eventType);
 
             SparqlPrefixSet prefixSet = new SparqlPrefixSet(tripleSet, filterSet);
 

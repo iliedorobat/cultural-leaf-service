@@ -15,16 +15,16 @@ public class SparqlPrefixSet {
         put("dbo", Namespace.NS_DBPEDIA_ONTOLOGY);
         put("dbp", Namespace.NS_DBPEDIA_PROPERTY);
         put("dbr", Namespace.NS_DBPEDIA_RESOURCE);
-        put("dc", DC_11.getURI());
-        put("dcterms", DCTerms.getURI());
-        put("edm", EDM.getURI());
-        put("foaf", FOAF.getURI());
+        put("dc", DC_11.NS);
+        put("dcterms", DCTerms.NS);
+        put("edm", EDM.NS);
+        put("foaf", FOAF.NS);
         put("odp", Namespace.NS_REPO_PROPERTY);
         put("odr", Namespace.NS_REPO_RESOURCE);
-        put("ore", ORE.getURI());
-        put("rdf", RDF.getURI());
-        put("rdfs", RDFS.getURI());
-        put("skos", SKOS.getURI());
+        put("ore", ORE.NS);
+        put("rdf", RDF.uri);
+        put("rdfs", RDFS.uri);
+        put("skos", SKOS.uri);
     }};
 
     private Set<SparqlPrefix> prefixes;
